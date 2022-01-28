@@ -21,7 +21,11 @@ function App() {
           path="/"
           element={<HomePage onLocationChange={handleLocationChange} />}
         />
-        <Route path="/:location" element={<WeatherDetail />} />
+        <Route
+          path="/:location"
+          onLocationChange={handleLocationChange}
+          element={<WeatherDetail />}
+        />
       </Routes>
     </ChakraProvider>
   );

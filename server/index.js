@@ -26,23 +26,33 @@ app.use(
 app.use(express.static(path.resolve(__dirname, "../client/build")));
 
 app.get("/weather/:location", async (req, res) => {
-  const location = req.params.location.split(" ").join("+");
+  let location = req.params.location.split(" ").join("+");
 
+  // Using OpenCage API for getting the 'latitude' and 'longitude' for the
+  // user inputted place.
   const coordRes = await axios.get(
     `https://api.opencagedata.com/geocode/v1/json?q=${location}&key=${process.env.PLACES_APIKEY}`
   );
+  const data = coordRes.data.results[0];
 
-  const { lat, lng } = coordRes.data.results[0].geometry;
+  const { lat, lng } = data.geometry;
+  location = `${data.components.city}, ${data.components.state}`;
 
   const weatherData = await axios.get(
     `https://api.openweathermap.org/data/2.5/onecall?lat=${lat}&lon=${lng}&appid=${process.env.OPENWEATHER_APIKEY}`
   );
+  const aqi = await axios.get(
+    `http://api.openweathermap.org/data/2.5/air_pollution/forecast?lat=${lat}&lon=${lng}&appid=${process.env.OPENWEATHER_APIKEY}`
+  );
 
-  return res.json({ ...weatherData.data });
+  return res.json({
+    ...weatherData.data,
+    aqi: aqi.data.list[0].main.aqi,
+    location,
+  });
 });
 
 app.get("*", async (req, res) => {
-  console.log("hello");
   return res.sendFile(path.resolve(__dirname, "../client/build"));
 });
 
