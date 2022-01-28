@@ -8,6 +8,7 @@ import TodayWeather from './TodayWeather';
 import SunriseAndSunsetCard from './SunriseAndSunsetCard';
 import AQICard from './AQICard';
 import DewPointCard from './DewPointCard';
+import DailyWeatherCard from './DailyWeatherCard';
 
 async function getWeatherData(location) {
   const res = await axios.get(`/weather/${location}`);
@@ -67,12 +68,11 @@ export default function WeatherDetail({ onLocationChange }) {
 
   return (
     <Grid
-      h="100vh"
-      templateColumns="repeat(10, 1fr)"
-      templateRows="repeat(10, 1fr)"
       bg="whitesmoke"
+      templateColumns="repeat(12, 1fr)"
+      templateRows="repeat(10, 1fr)"
     >
-      <GridItem p={4} rowSpan="2" colSpan="7">
+      <GridItem p={4} rowSpan="2" colSpan="9">
         <Heading as="h5" size="2xl">
           {currentTime}
         </Heading>
@@ -84,7 +84,7 @@ export default function WeatherDetail({ onLocationChange }) {
         </Heading>
       </GridItem>
 
-      <GridItem rowSpan="10" colSpan="3" bg="whitesmoke">
+      <GridItem rowSpan="10" colSpan="3" h={'100%'} bg="whitesmoke">
         <TodayWeather
           current={weatherData.current}
           location={location}
@@ -93,13 +93,28 @@ export default function WeatherDetail({ onLocationChange }) {
         />
       </GridItem>
 
-      <GridItem rowSpan="8" colSpan="7">
-        <Box h="25%" bg={'blue.800'} m={4}>
-          <Heading as="h6" size="md" h="20%">
-            Daily
-          </Heading>
-          <Box h="80%" bg={'green.300'}></Box>
+      <GridItem rowSpan="8" colSpan="9">
+        <Box h="25%" m={4} borderRadius={'xl'}>
+          <Box
+            display={'flex'}
+            justifyContent={'space-evenly'}
+            alignItems={'center'}
+          >
+            {weatherData.daily.map((data, idx) => {
+              return (
+                <DailyWeatherCard
+                  key={idx}
+                  timestamp={data.dt}
+                  temperature={data.temp.day}
+                  icon={data.weather[0].icon}
+                  description={data.weather[0].description}
+                  fromKtoC={fromKtoC}
+                />
+              );
+            })}
+          </Box>
         </Box>
+
         <Box h="25%" bg={'blue.800'} m={4}>
           <Heading as="h6" size="md" h="20%">
             Hourly
@@ -107,7 +122,7 @@ export default function WeatherDetail({ onLocationChange }) {
           <Box h="80%" bg={'green.300'}></Box>
         </Box>
 
-        <Grid templateColumns="repeat(3, 1fr)" h="40%" m={4}>
+        <Grid templateColumns="repeat(3, 1fr)" m={4}>
           <GridItem colSpan="1" m={4} p={4} bg="white" borderRadius={'xl'}>
             <SunriseAndSunsetCard
               sunrise={weatherData.current.sunrise}

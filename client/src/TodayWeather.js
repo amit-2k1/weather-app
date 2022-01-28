@@ -1,9 +1,9 @@
-import { useEffect, useState } from 'react';
-import { Box, Heading, Text, Image, VStack } from '@chakra-ui/react';
+import { Box, Heading, Text, VStack } from '@chakra-ui/react';
 import dayjs from 'dayjs';
 
 import LocationInput from './LocationInput';
 import WeatherCards from './WeatherCards';
+import SVGIcon from './SVGIcon';
 
 export default function TodayWeather({
   current,
@@ -11,19 +11,6 @@ export default function TodayWeather({
   onLocationChange,
   fromKtoC,
 }) {
-  const [icon, setIcon] = useState('');
-
-  const getIcon = async () => {
-    const importedIcon = await import(
-      `./weather-svg/${current.weather[0].icon}.svg`
-    );
-    setIcon(importedIcon.default);
-  };
-
-  useEffect(() => {
-    getIcon();
-  }, []);
-
   return (
     <>
       <Box m={4}>
@@ -35,13 +22,13 @@ export default function TodayWeather({
           {location}
         </Heading>
 
-        <Image
-          src={icon}
-          w="200px"
-          h="200px"
-          mb={4}
-          alt={current.weather.description}
+        <SVGIcon
+          width={200}
+          height={200}
+          iconName={current.weather[0].icon}
+          description={current.weather.description}
         />
+
         <Text mb={6}>{'Today, ' + dayjs().format('DD MMMM')}</Text>
         <Heading as="p" size="3xl" fontWeight={'medium'}>
           {fromKtoC(current.temp)}
