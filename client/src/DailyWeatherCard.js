@@ -14,7 +14,7 @@ export default function DailyWeatherCard({
     <VStack flex={'0 1 12%'} p={2} bg="white" borderRadius={'xl'}>
       <SVGIcon
         width={40}
-        height={40}
+        height={30}
         iconName={icon}
         description={description}
       />

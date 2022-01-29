@@ -9,6 +9,7 @@ import SunriseAndSunsetCard from './SunriseAndSunsetCard';
 import AQICard from './AQICard';
 import DewPointCard from './DewPointCard';
 import DailyWeatherCard from './DailyWeatherCard';
+import HourlyWeather from './HourlyWeather';
 
 async function getWeatherData(location) {
   const res = await axios.get(`/weather/${location}`);
@@ -58,6 +59,19 @@ export default function WeatherDetail({ onLocationChange }) {
 
   const fromKtoC = k => Math.round(k - 273);
 
+  const getFormattedHourlyData = () => {
+    const formattedHourlyData = [{}];
+    weatherData.hourly.forEach(({ temp, dt }, index) => {
+      if (index % 5 === 0) {
+        formattedHourlyData.push({
+          temperature: fromKtoC(temp),
+          time: dayjs(dt).format('HH:mm'),
+        });
+      }
+    });
+    return formattedHourlyData;
+  };
+
   if (loading) {
     return (
       <>
@@ -71,6 +85,7 @@ export default function WeatherDetail({ onLocationChange }) {
       bg="whitesmoke"
       templateColumns="repeat(12, 1fr)"
       templateRows="repeat(10, 1fr)"
+      p={4}
     >
       <GridItem p={4} rowSpan="2" colSpan="9">
         <Heading as="h5" size="2xl">
@@ -93,8 +108,39 @@ export default function WeatherDetail({ onLocationChange }) {
         />
       </GridItem>
 
-      <GridItem rowSpan="8" colSpan="9">
-        <Box h="25%" m={4} borderRadius={'xl'}>
+      <GridItem rowSpan="8" colSpan="9" mr={4}>
+        <Grid templateColumns="repeat(3, 1fr)" m={4}>
+          <GridItem colSpan="1" mx={4} p={4} bg="white" borderRadius={'xl'}>
+            <SunriseAndSunsetCard
+              sunrise={weatherData.current.sunrise}
+              sunset={weatherData.current.sunset}
+            />
+          </GridItem>
+
+          <GridItem colSpan="1" mx={4} p={4} bg="white" borderRadius={'xl'}>
+            <DewPointCard
+              dewPoint={weatherData.current.dew_point}
+              fromKtoC={fromKtoC}
+            />
+          </GridItem>
+
+          <GridItem colSpan="1" mx={4} p={4} bg="white" borderRadius={'xl'}>
+            <AQICard
+              value={AQIData.value}
+              name={AQIData.name}
+              color={AQIData.color}
+            />
+          </GridItem>
+        </Grid>
+
+        <Box h="40%" w="72vw" m={4} my={0}>
+          <Heading as="h6" size="md" p={2}>
+            Hourly
+          </Heading>
+          <HourlyWeather data={getFormattedHourlyData()} />
+        </Box>
+
+        <Box h="20%" m={4} borderRadius={'xl'}>
           <Box
             display={'flex'}
             justifyContent={'space-evenly'}
@@ -114,37 +160,6 @@ export default function WeatherDetail({ onLocationChange }) {
             })}
           </Box>
         </Box>
-
-        <Box h="25%" bg={'blue.800'} m={4}>
-          <Heading as="h6" size="md" h="20%">
-            Hourly
-          </Heading>
-          <Box h="80%" bg={'green.300'}></Box>
-        </Box>
-
-        <Grid templateColumns="repeat(3, 1fr)" m={4}>
-          <GridItem colSpan="1" m={4} p={4} bg="white" borderRadius={'xl'}>
-            <SunriseAndSunsetCard
-              sunrise={weatherData.current.sunrise}
-              sunset={weatherData.current.sunset}
-            />
-          </GridItem>
-
-          <GridItem colSpan="1" m={4} p={4} bg="white" borderRadius={'xl'}>
-            <DewPointCard
-              dewPoint={weatherData.current.dew_point}
-              fromKtoC={fromKtoC}
-            />
-          </GridItem>
-
-          <GridItem colSpan="1" m={4} p={4} bg="white" borderRadius={'xl'}>
-            <AQICard
-              value={AQIData.value}
-              name={AQIData.name}
-              color={AQIData.color}
-            />
-          </GridItem>
-        </Grid>
       </GridItem>
     </Grid>
   );
