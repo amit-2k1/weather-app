@@ -58,10 +58,6 @@ app.get("/weather/:location", async (req, res) => {
   });
 });
 
-app.get("*", async (req, res) => {
-  return res.sendFile(path.resolve(__dirname, "../client/build"));
-});
-
 app.listen(app.get("port"), () => {
   console.log(
     `Server running on... ${chalk.blue(`http://localhost:${app.get("port")}`)}`

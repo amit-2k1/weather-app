@@ -13,7 +13,8 @@ import HourlyWeather from './HourlyWeather';
 import LocationInput from './LocationInput';
 
 async function getWeatherData(location) {
-  const res = await axios.get(`/weather/${location}`);
+  const API_URL = `https://h-weather-app-api.herokuapp.com/weather/${location}`;
+  const res = await axios.get(API_URL);
   return res.data;
 }
 
