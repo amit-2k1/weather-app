@@ -10,7 +10,7 @@ export default function WeatherCards({
   unit2,
 }) {
   return (
-    <HStack h="15%" m={4} fontSize={'3xl'} fontWeight={'semibold'}>
+    <HStack h="16%" m={4} fontSize={'3xl'} fontWeight={'semibold'}>
       <Box w="50%" h="100%" p={2} mr={'1%'} bg={'white'} borderRadius={'xl'}>
         <Text fontSize="md" mb={2} textAlign={'left'}>
           {attr1Name}

@@ -36,7 +36,7 @@ app.get("/weather/:location", async (req, res) => {
   const data = coordRes.data.results[0];
 
   const { lat, lng } = data.geometry;
-  location = `${data.components.city}, ${data.components.state}`;
+  location = `${data.components.city}, ${data.components.country}`;
 
   const weatherData = await axios.get(
     `https://api.openweathermap.org/data/2.5/onecall?lat=${lat}&lon=${lng}&appid=${process.env.OPENWEATHER_APIKEY}`

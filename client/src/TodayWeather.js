@@ -5,20 +5,11 @@ import LocationInput from './LocationInput';
 import WeatherCards from './WeatherCards';
 import SVGIcon from './SVGIcon';
 
-export default function TodayWeather({
-  current,
-  location,
-  onLocationChange,
-  fromKtoC,
-}) {
+export default function TodayWeather({ current, location, fromKtoC }) {
   return (
     <>
-      <Box m={4}>
-        <LocationInput onSubmit={onLocationChange} />
-      </Box>
-
-      <VStack m={4} mt={0} p={3} borderRadius={'xl'} bg={'teal.200'}>
-        <Heading as="h3" mb={2} size="md">
+      <VStack m={4} p={3} borderRadius={'xl'} bg={'teal.200'}>
+        <Heading as="h3" mb={2} size="md" textAlign={'center'}>
           {location}
         </Heading>
 

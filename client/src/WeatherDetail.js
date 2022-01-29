@@ -10,6 +10,7 @@ import AQICard from './AQICard';
 import DewPointCard from './DewPointCard';
 import DailyWeatherCard from './DailyWeatherCard';
 import HourlyWeather from './HourlyWeather';
+import LocationInput from './LocationInput';
 
 async function getWeatherData(location) {
   const res = await axios.get(`/weather/${location}`);
@@ -83,32 +84,38 @@ export default function WeatherDetail({ onLocationChange }) {
   return (
     <Grid
       bg="whitesmoke"
-      templateColumns="repeat(12, 1fr)"
-      templateRows="repeat(10, 1fr)"
+      templateColumns="repeat(15, 1fr)"
+      templateRows="repeat(1, 1fr)"
       p={4}
     >
-      <GridItem p={4} rowSpan="2" colSpan="9">
-        <Heading as="h5" size="2xl">
-          {currentTime}
-        </Heading>
-        <Heading as="h5" size="md" pb="2">
-          {todayDate}
-        </Heading>
-        <Heading as="h5" size="xl">
-          {'Good ' + (currentTime.includes('AM') ? 'Morning' : 'Evening') + '!'}
-        </Heading>
+      <GridItem p={4} rowSpan="2" colSpan="11">
+        <Box mb={4}>
+          <LocationInput onSubmit={onLocationChange} />
+        </Box>
+        <Box>
+          <Heading as="h5" size="2xl">
+            {currentTime}
+          </Heading>
+          <Heading as="h5" size="md" pb="2">
+            {todayDate}
+          </Heading>
+          <Heading as="h5" size="xl">
+            {'Good ' +
+              (currentTime.includes('AM') ? 'Morning' : 'Evening') +
+              '!'}
+          </Heading>
+        </Box>
       </GridItem>
 
-      <GridItem rowSpan="10" colSpan="3" h={'100%'} bg="whitesmoke">
+      <GridItem rowSpan="7" colSpan="4" h={'100%'} bg="whitesmoke">
         <TodayWeather
           current={weatherData.current}
           location={location}
-          onLocationChange={onLocationChange}
           fromKtoC={fromKtoC}
         />
       </GridItem>
 
-      <GridItem rowSpan="8" colSpan="9" mr={4}>
+      <GridItem rowSpan="5" colSpan="11">
         <Grid templateColumns="repeat(3, 1fr)" m={4}>
           <GridItem colSpan="1" mx={4} p={4} bg="white" borderRadius={'xl'}>
             <SunriseAndSunsetCard
@@ -133,14 +140,16 @@ export default function WeatherDetail({ onLocationChange }) {
           </GridItem>
         </Grid>
 
-        <Box h="40%" w="72vw" m={4} my={0}>
+        <Box h="40%" w="60vw" m={4} my={0}>
           <Heading as="h6" size="md" p={2}>
             Hourly
           </Heading>
           <HourlyWeather data={getFormattedHourlyData()} />
         </Box>
+      </GridItem>
 
-        <Box h="20%" m={4} borderRadius={'xl'}>
+      <GridItem rowSpan="1" colSpan="15">
+        <Box m={4} borderRadius={'xl'}>
           <Box
             display={'flex'}
             justifyContent={'space-evenly'}

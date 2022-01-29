@@ -11,7 +11,7 @@ export default function DailyWeatherCard({
   fromKtoC,
 }) {
   return (
-    <VStack flex={'0 1 12%'} p={2} bg="white" borderRadius={'xl'}>
+    <VStack flex={'0 1 12%'} p={4} bg="white" borderRadius={'xl'}>
       <SVGIcon
         width={40}
         height={30}
