@@ -14,11 +14,11 @@ export default function SunriseAndSunsetCard({ sunrise, sunset }) {
         Sunrise & Sunset
       </Heading>
       <VStack>
-        <HStack spacing={10}>
+        <HStack spacing={[10, 20, 4]}>
           <Image src={SunRiseIcon} w="60px" h="60px" alt="Sunrise Image" />
           <Text fontWeight={'semibold'}>{getTimeFromSeconds(sunrise)}</Text>
         </HStack>
-        <HStack spacing={10}>
+        <HStack spacing={[10, 20, 4]}>
           <Image src={SunSetIcon} w="60px" h="60px" alt="Sunset Image" />
           <Text fontWeight={'semibold'}>{getTimeFromSeconds(sunset)}</Text>
         </HStack>

@@ -14,7 +14,8 @@ export default function DewPointCard({ dewPoint, fromKtoC }) {
         fontWeight={'semibold'}
         textAlign={'center'}
       >
-        {fromKtoC(dewPoint)} <Text as="sup">o</Text>C
+        {fromKtoC(dewPoint)}
+        <Text as="sup">o</Text>C
       </Heading>
     </>
   );

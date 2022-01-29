@@ -34,7 +34,7 @@ export default function TodayWeather({ current, location, fromKtoC }) {
         attr1Name={'UV Index'}
         attr1={current.uvi}
         attr2Name={'Wind'}
-        attr2={current.wind_speed}
+        attr2={current.wind_speed.toFixed(1)}
         unit2={'km/h'}
       />
       <WeatherCards
@@ -42,7 +42,7 @@ export default function TodayWeather({ current, location, fromKtoC }) {
         attr1={current.humidity}
         unit1={'%'}
         attr2Name={'Visibility'}
-        attr2={current.visibility}
+        attr2={Math.round(current.visibility / 1000)}
         unit2={'km'}
       />
     </>

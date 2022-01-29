@@ -48,7 +48,7 @@ export default function WeatherDetail({ onLocationChange }) {
 
   const getAQIQualitativeName = aqi => {
     const AQIQualitativeName = [
-      { name: 'Good', color: 'light green' },
+      { name: 'Good', color: '#90ee90' },
       { name: 'Fair', color: 'green' },
       { name: 'Moderate', color: 'yellow' },
       { name: 'Poor', color: 'orange' },
@@ -88,7 +88,7 @@ export default function WeatherDetail({ onLocationChange }) {
       templateRows="repeat(1, 1fr)"
       p={4}
     >
-      <GridItem p={4} rowSpan="2" colSpan="11">
+      <GridItem p={4} rowSpan="2" colSpan={['15', '15', '11']}>
         <Box mb={4}>
           <LocationInput onSubmit={onLocationChange} />
         </Box>
@@ -107,7 +107,7 @@ export default function WeatherDetail({ onLocationChange }) {
         </Box>
       </GridItem>
 
-      <GridItem rowSpan="7" colSpan="4" h={'100%'} bg="whitesmoke">
+      <GridItem rowSpan="7" colSpan={['15', '15', '4']} bg="whitesmoke">
         <TodayWeather
           current={weatherData.current}
           location={location}
@@ -115,23 +115,23 @@ export default function WeatherDetail({ onLocationChange }) {
         />
       </GridItem>
 
-      <GridItem rowSpan="5" colSpan="11">
-        <Grid templateColumns="repeat(3, 1fr)" m={4}>
-          <GridItem colSpan="1" mx={4} p={4} bg="white" borderRadius={'xl'}>
+      <GridItem rowSpan="5" colSpan={['15', '15', '11']}>
+        <Grid templateColumns="repeat(6, 1fr)" columnGap={2} rowGap={2} m={4}>
+          <GridItem colSpan={[6, 6, 2]} p={4} bg="white" borderRadius={'xl'}>
             <SunriseAndSunsetCard
               sunrise={weatherData.current.sunrise}
               sunset={weatherData.current.sunset}
             />
           </GridItem>
 
-          <GridItem colSpan="1" mx={4} p={4} bg="white" borderRadius={'xl'}>
+          <GridItem colSpan={[6, 3, 2]} p={4} bg="white" borderRadius={'xl'}>
             <DewPointCard
               dewPoint={weatherData.current.dew_point}
               fromKtoC={fromKtoC}
             />
           </GridItem>
 
-          <GridItem colSpan="1" mx={4} p={4} bg="white" borderRadius={'xl'}>
+          <GridItem colSpan={[6, 3, 2]} p={4} bg="white" borderRadius={'xl'}>
             <AQICard
               value={AQIData.value}
               name={AQIData.name}
@@ -140,7 +140,7 @@ export default function WeatherDetail({ onLocationChange }) {
           </GridItem>
         </Grid>
 
-        <Box h="40%" w="60vw" m={4} my={0}>
+        <Box h="40%" w={['85vw', '85vw', '60vw']} m={4} my={0}>
           <Heading as="h6" size="md" p={2}>
             Hourly
           </Heading>
@@ -148,27 +148,22 @@ export default function WeatherDetail({ onLocationChange }) {
         </Box>
       </GridItem>
 
-      <GridItem rowSpan="1" colSpan="15">
-        <Box m={4} borderRadius={'xl'}>
-          <Box
-            display={'flex'}
-            justifyContent={'space-evenly'}
-            alignItems={'center'}
-          >
-            {weatherData.daily.map((data, idx) => {
-              return (
+      <GridItem rowSpan="1" colSpan="15" m={4}>
+        <Grid gridTemplateColumns="repeat(8, 1fr)" columnGap={4} rowGap={4}>
+          {weatherData.daily.map((data, idx) => {
+            return (
+              <GridItem key={idx} colSpan={[4, 2, 1]}>
                 <DailyWeatherCard
-                  key={idx}
                   timestamp={data.dt}
                   temperature={data.temp.day}
                   icon={data.weather[0].icon}
                   description={data.weather[0].description}
                   fromKtoC={fromKtoC}
                 />
-              );
-            })}
-          </Box>
-        </Box>
+              </GridItem>
+            );
+          })}
+        </Grid>
       </GridItem>
     </Grid>
   );

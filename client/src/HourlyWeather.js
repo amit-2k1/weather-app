@@ -13,7 +13,7 @@ import {
 
 export default function HourlyWeather({ data }) {
   return (
-    <Box h="30vh" w="100%" p={2}>
+    <Box h={['30vh']} w="100%" p={2}>
       <ResponsiveContainer>
         <LineChart data={data}>
           <YAxis dataKey="temperature" interval="preserveStartEnd">

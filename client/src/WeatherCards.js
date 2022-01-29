@@ -23,7 +23,7 @@ export default function WeatherCards({
         </Text>
         <Box display={'flex'} alignItems={'baseline'}>
           <Text>{attr2}</Text>
-          <Text fontSize={'md'}> {unit2 ? unit2 : ''}</Text>
+          <Text fontSize={'md'}>{unit2 ? unit2 : ''}</Text>
         </Box>
       </Box>
     </HStack>
