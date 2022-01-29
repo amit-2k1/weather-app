@@ -39,7 +39,8 @@ app.get("/weather/:location", async (req, res) => {
 
   location = "";
   if (data.components.city) location += data.components.city;
-  if (data.components.state) location += ", " + data.components.state;
+  if (data.components.state)
+    location += (location ? ", " : "") + data.components.state;
   if (data.components.country && location.split(",").length !== 2)
     location += ", " + data.components.country;
 

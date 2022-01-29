@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
-import axios from 'axios';
 import { useSearchParams } from 'react-router-dom';
-import { Box, Grid, GridItem, Heading } from '@chakra-ui/react';
+import { Box, Grid, GridItem, Heading, Spinner } from '@chakra-ui/react';
+import axios from 'axios';
 import * as dayjs from 'dayjs';
 
 import TodayWeather from './TodayWeather';
@@ -75,14 +75,21 @@ export default function WeatherDetail({ onLocationChange }) {
 
   if (loading) {
     return (
-      <>
-        <Heading>Loading...</Heading>
-      </>
+      <Box
+        h="100vh"
+        w="100vw"
+        display="flex"
+        alignItems="center"
+        justifyContent="center"
+      >
+        <Spinner color="teal.300" size="xl" />
+      </Box>
     );
   }
 
   return (
     <Grid
+      as="main"
       bg="whitesmoke"
       templateColumns="repeat(15, 1fr)"
       templateRows="repeat(1, 1fr)"
