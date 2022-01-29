@@ -1,7 +1,6 @@
-import { Box, Heading, Text, VStack } from '@chakra-ui/react';
+import { Heading, Text, VStack } from '@chakra-ui/react';
 import dayjs from 'dayjs';
 
-import LocationInput from './LocationInput';
 import WeatherCards from './WeatherCards';
 import SVGIcon from './SVGIcon';
 
