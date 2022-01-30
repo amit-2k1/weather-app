@@ -5,7 +5,7 @@ import SunSetIcon from './weather-svg/sunset.svg';
 
 export default function SunriseAndSunsetCard({ sunrise, sunset }) {
   const getTimeFromSeconds = timestamp => {
-    return dayjs(timestamp).format('hh:mm A');
+    return dayjs.unix(timestamp).format('hh:mm A');
   };
 
   return (

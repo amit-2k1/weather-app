@@ -4,7 +4,7 @@ import dayjs from 'dayjs';
 import WeatherCards from './WeatherCards';
 import SVGIcon from './SVGIcon';
 
-export default function TodayWeather({ current, location, fromKtoC }) {
+export default function TodayWeather({ current, location }) {
   return (
     <>
       <VStack m={4} p={3} borderRadius={'xl'} bg={'teal.200'}>
@@ -21,7 +21,7 @@ export default function TodayWeather({ current, location, fromKtoC }) {
 
         <Text mb={6}>{'Today, ' + dayjs().format('DD MMMM')}</Text>
         <Heading as="p" size="3xl" fontWeight={'medium'}>
-          {fromKtoC(current.temp)}
+          {current.temp}
           <Text as="sup"> o</Text>C
         </Heading>
         <Text fontSize={'xl'} fontWeight={'bold'}>

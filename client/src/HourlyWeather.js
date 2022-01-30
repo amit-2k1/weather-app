@@ -13,21 +13,32 @@ import {
 
 export default function HourlyWeather({ data }) {
   return (
-    <Box h={['30vh']} w="100%" p={2}>
+    <Box h={['80%', '90%']} w={['85vw', '100%']} p={2}>
       <ResponsiveContainer>
         <LineChart data={data}>
-          <YAxis dataKey="temperature" interval="preserveStartEnd">
-            <Label value="Temperature" angle={-90} position="leftInside" />
+          <Legend verticalAlign="top" height={40} />
+          <YAxis
+            dataKey="temperature"
+            domain={['auto', 'auto']}
+            unit={'C'}
+            interval="preserveStartEnd"
+          >
+            <Label
+              value="Temperature"
+              angle={-90}
+              dx={-20}
+              position="leftInside"
+            />
           </YAxis>
           <XAxis dataKey="time" interval="preserveStart">
             <Label value="Time" offset={-5} position="insideBottom" />
           </XAxis>
-          <Legend verticalAlign="top" />
           <Tooltip />
           <Line
             type="monotone"
             dataKey="temperature"
             dot={false}
+            activeDot={true}
             strokeWidth={3}
           />
         </LineChart>

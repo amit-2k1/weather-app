@@ -8,7 +8,6 @@ export default function DailyWeatherCard({
   temperature,
   icon,
   description,
-  fromKtoC,
 }) {
   return (
     <VStack p={4} bg="white" borderRadius={'xl'}>
@@ -19,10 +18,10 @@ export default function DailyWeatherCard({
         description={description}
       />
       <Text fontSize="md" fontWeight={'semibold'}>
-        {dayjs(timestamp).format('DD, MMM')}
+        {dayjs.unix(timestamp).format('D, MMM')}
       </Text>
       <Text fontSize="md" fontWeight={'semibold'}>
-        {fromKtoC(temperature)} <Text as="sup">o</Text>C
+        {temperature} <Text as="sup">o</Text>C
       </Text>
     </VStack>
   );

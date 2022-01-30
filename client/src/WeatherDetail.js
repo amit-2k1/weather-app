@@ -12,15 +12,16 @@ import DailyWeatherCard from './DailyWeatherCard';
 import HourlyWeather from './HourlyWeather';
 import LocationInput from './LocationInput';
 
-async function getWeatherData(location) {
-  console.log(process.env.REACT_APP_API_URL);
-  const res = await axios.get(
-    `${process.env.REACT_APP_API_URL}/weather/${location}`
-  );
-  return res.data;
+async function getWeatherData(location, navigate) {
+  return axios
+    .get(`${process.env.REACT_APP_API_URL}/weather/${location}`)
+    .then(({ data }) => data)
+    .catch(() => {
+      navigate('/error');
+    });
 }
 
-export default function WeatherDetail({ onLocationChange }) {
+export default function WeatherDetail({ onLocationChange, navigate }) {
   const [weatherData, setWeatherData] = useState({});
   const [AQIData, setAQIData] = useState({});
   const [location, setLocation] = useState('');
@@ -39,7 +40,7 @@ export default function WeatherDetail({ onLocationChange }) {
 
   useEffect(() => {
     const location = searchParams.get('location');
-    getWeatherData(location).then(newWeatherData => {
+    getWeatherData(location, navigate).then(newWeatherData => {
       const newAQIData = getAQIQualitativeName(newWeatherData.aqi);
 
       setWeatherData({ ...weatherData, ...newWeatherData });
@@ -61,15 +62,13 @@ export default function WeatherDetail({ onLocationChange }) {
     return { value: aqi, ...AQIQualitativeName[aqi - 1] };
   };
 
-  const fromKtoC = k => Math.round(k - 273);
-
   const getFormattedHourlyData = () => {
     const formattedHourlyData = [{}];
     weatherData.hourly.forEach(({ temp, dt }, index) => {
-      if (index % 5 === 0) {
+      if (index < 10) {
         formattedHourlyData.push({
-          temperature: fromKtoC(temp),
-          time: dayjs(dt).format('HH:mm'),
+          temperature: temp,
+          time: dayjs.unix(dt).format('HH:mm'),
         });
       }
     });
@@ -118,11 +117,7 @@ export default function WeatherDetail({ onLocationChange }) {
       </GridItem>
 
       <GridItem rowSpan="7" colSpan={['15', '15', '4']} bg="whitesmoke">
-        <TodayWeather
-          current={weatherData.current}
-          location={location}
-          fromKtoC={fromKtoC}
-        />
+        <TodayWeather current={weatherData.current} location={location} />
       </GridItem>
 
       <GridItem rowSpan="5" colSpan={['15', '15', '11']}>
@@ -135,10 +130,7 @@ export default function WeatherDetail({ onLocationChange }) {
           </GridItem>
 
           <GridItem colSpan={[6, 3, 2]} p={4} bg="white" borderRadius={'xl'}>
-            <DewPointCard
-              dewPoint={weatherData.current.dew_point}
-              fromKtoC={fromKtoC}
-            />
+            <DewPointCard dewPoint={weatherData.current.dew_point} />
           </GridItem>
 
           <GridItem colSpan={[6, 3, 2]} p={4} bg="white" borderRadius={'xl'}>
@@ -150,7 +142,7 @@ export default function WeatherDetail({ onLocationChange }) {
           </GridItem>
         </Grid>
 
-        <Box h="40%" w={['85vw', '85vw', '60vw']} m={4} my={0}>
+        <Box h={['55vh', '35vh']} w={['85vw', '85vw', '60vw']} m={4} my={0}>
           <Heading as="h6" size="md" p={2}>
             Hourly
           </Heading>
@@ -159,6 +151,9 @@ export default function WeatherDetail({ onLocationChange }) {
       </GridItem>
 
       <GridItem rowSpan="1" colSpan="15" m={4}>
+        <Heading as="h6" size="md" p={2}>
+          Daily
+        </Heading>
         <Grid gridTemplateColumns="repeat(8, 1fr)" columnGap={4} rowGap={4}>
           {weatherData.daily.map((data, idx) => {
             return (
@@ -168,7 +163,6 @@ export default function WeatherDetail({ onLocationChange }) {
                   temperature={data.temp.day}
                   icon={data.weather[0].icon}
                   description={data.weather[0].description}
-                  fromKtoC={fromKtoC}
                 />
               </GridItem>
             );

@@ -1,7 +1,7 @@
 import React from 'react';
 import { Heading, Text } from '@chakra-ui/react';
 
-export default function DewPointCard({ dewPoint, fromKtoC }) {
+export default function DewPointCard({ dewPoint }) {
   return (
     <>
       <Heading as="h5" mb={2} p={1} size="md">
@@ -14,7 +14,7 @@ export default function DewPointCard({ dewPoint, fromKtoC }) {
         fontWeight={'semibold'}
         textAlign={'center'}
       >
-        {fromKtoC(dewPoint)}
+        {dewPoint}
         <Text as="sup">o</Text>C
       </Heading>
     </>

@@ -4,6 +4,7 @@ import { ChakraProvider } from '@chakra-ui/react';
 
 import HomePage from './HomePage';
 import WeatherDetail from './WeatherDetail';
+import Error from './Error';
 
 function App() {
   const navigate = useNavigate();
@@ -11,7 +12,7 @@ function App() {
   const handleLocationChange = e => {
     e.preventDefault();
     const location = e.target.querySelector('#location').value;
-    navigate(`/search?location=${location}`);
+    navigate(`/weather/search?location=${location}`);
   };
 
   return (
@@ -22,10 +23,11 @@ function App() {
           element={<HomePage onLocationChange={handleLocationChange} />}
         />
         <Route
-          path="/:location"
+          path="/weather/:location"
           onLocationChange={handleLocationChange}
-          element={<WeatherDetail />}
+          element={<WeatherDetail navigate={navigate} />}
         />
+        <Route path="*" element={<Error navigate={navigate} />} />
       </Routes>
     </ChakraProvider>
   );
