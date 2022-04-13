@@ -2,7 +2,7 @@
 
 Weather App is a React web app which display the weather details from all around the world.
 
-Website: [Weather App](your-weatherman.netlify.app)
+Website: [Weather App](https://your-weatherman.netlify.app)
 
 ### Tech Used
 
