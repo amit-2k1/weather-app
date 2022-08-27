@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { useSearchParams } from 'react-router-dom';
+import { useParams } from 'react-router-dom';
 import { Box, Grid, GridItem, Heading, Spinner } from '@chakra-ui/react';
 import axios from 'axios';
 import * as dayjs from 'dayjs';
@@ -13,22 +13,25 @@ import HourlyWeather from './HourlyWeather';
 import LocationInput from './LocationInput';
 
 async function getWeatherData(location, navigate) {
-  return axios
-    .get(`${process.env.REACT_APP_API_URL}/weather/${location}`)
+  console.log(location);
+  const response = await axios
+    .post(`${process.env.REACT_APP_API_URL}/weather`, {location})
     .then(({ data }) => data)
     .catch(() => {
       navigate('/error');
     });
+  
+  return response
 }
 
 export default function WeatherDetail({ onLocationChange, navigate }) {
   const [weatherData, setWeatherData] = useState({});
   const [AQIData, setAQIData] = useState({});
-  const [location, setLocation] = useState('');
   const [currentTime, setCurrentTime] = useState('');
   const [todayDate, setTodayDate] = useState('');
   const [loading, setLoading] = useState(true);
-  const [searchParams] = useSearchParams();
+  const {location} = useParams();
+  const [loc, setLoc] = useState(location);
 
   useEffect(() => {
     const now = dayjs();
@@ -36,21 +39,23 @@ export default function WeatherDetail({ onLocationChange, navigate }) {
     setCurrentTime(now.format('h:mm A'));
     // DAY, DATE MONTH, YEAR
     setTodayDate(now.format('dddd, D MMMM, YYYY'));
-  }, [searchParams]);
+  }, [location]);
 
   useEffect(() => {
-    const location = searchParams.get('location');
-    getWeatherData(location, navigate).then(newWeatherData => {
-      const newAQIData = getAQIQualitativeName(newWeatherData.aqi);
+    setLoading(true);
+    getWeatherData(location, navigate)
+      .then(newWeatherData => {
+        const newAQIData = getAQIQualitativeName(newWeatherData?.aqi);
 
-      setWeatherData({ ...weatherData, ...newWeatherData });
-      setLocation(newWeatherData.location);
-      setAQIData({ ...AQIData, ...newAQIData });
-      setLoading(false);
-    });
-  }, [searchParams]);
+        setWeatherData({ ...weatherData, ...newWeatherData });
+        setAQIData({ ...AQIData, ...newAQIData });
+        setLoc(newWeatherData.location)
+        setLoading(false);
+      });
 
-  const getAQIQualitativeName = aqi => {
+  }, [location]);
+
+  const getAQIQualitativeName = (aqi) => {
     const AQIQualitativeName = [
       { name: 'Good', color: '#90ee90' },
       { name: 'Fair', color: 'green' },
@@ -75,6 +80,7 @@ export default function WeatherDetail({ onLocationChange, navigate }) {
     return formattedHourlyData;
   };
 
+  // LOADER
   if (loading) {
     return (
       <Box
@@ -89,6 +95,7 @@ export default function WeatherDetail({ onLocationChange, navigate }) {
     );
   }
 
+  // WEATHER PAGE UI
   return (
     <Grid
       as="main"
@@ -117,7 +124,7 @@ export default function WeatherDetail({ onLocationChange, navigate }) {
       </GridItem>
 
       <GridItem rowSpan="7" colSpan={['15', '15', '4']} bg="whitesmoke">
-        <TodayWeather current={weatherData.current} location={location} />
+        <TodayWeather current={weatherData.current} location={loc} />
       </GridItem>
 
       <GridItem rowSpan="5" colSpan={['15', '15', '11']}>
@@ -135,7 +142,7 @@ export default function WeatherDetail({ onLocationChange, navigate }) {
 
           <GridItem colSpan={[6, 3, 2]} p={4} bg="white" borderRadius={'xl'}>
             <AQICard
-              value={AQIData.value}
+              value={AQIData?.value}
               name={AQIData.name}
               color={AQIData.color}
             />

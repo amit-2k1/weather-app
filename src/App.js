@@ -11,8 +11,8 @@ function App() {
 
   const handleLocationChange = e => {
     e.preventDefault();
-    const location = e.target.querySelector('#location').value;
-    navigate(`/weather/search?location=${location}`);
+    const location = e.target.querySelector('#location').value.toLowerCase();
+    navigate(`/weather/${location}`);
   };
 
   return (
@@ -24,8 +24,11 @@ function App() {
         />
         <Route
           path="/weather/:location"
-          onLocationChange={handleLocationChange}
-          element={<WeatherDetail navigate={navigate} />}
+          element={
+            <WeatherDetail
+              onLocationChange={handleLocationChange}
+              navigate={navigate}
+            />}
         />
         <Route path="*" element={<Error navigate={navigate} />} />
       </Routes>

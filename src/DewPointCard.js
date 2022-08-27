@@ -10,7 +10,7 @@ export default function DewPointCard({ dewPoint }) {
       <Heading
         as="p"
         mt={6}
-        size={'3xl'}
+        size={'2xl'}
         fontWeight={'semibold'}
         textAlign={'center'}
       >

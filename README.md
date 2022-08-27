@@ -13,3 +13,4 @@ Site lives here: [Weather App](https://mystifying-ardinghelli-cf376c.netlify.app
 - NodeJS
 - OpenWeatherAPI : for weather data
 - OpenCageDataAPI : for getting latitude and longitude from place name
+

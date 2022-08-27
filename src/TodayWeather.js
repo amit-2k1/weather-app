@@ -7,8 +7,8 @@ import SVGIcon from './SVGIcon';
 export default function TodayWeather({ current, location }) {
   return (
     <>
-      <VStack m={4} p={3} borderRadius={'xl'} bg={'teal.200'}>
-        <Heading as="h3" mb={2} size="md" textAlign={'center'}>
+      <VStack m={4} mt={8} p={3} borderRadius={'xl'} bg={'teal.200'}>
+        <Heading as="h3" mb={2} size="md" textAlign={'center'} textTransform='capitalize'>
           {location}
         </Heading>
 
@@ -20,7 +20,7 @@ export default function TodayWeather({ current, location }) {
         />
 
         <Text mb={6}>{'Today, ' + dayjs().format('DD MMMM')}</Text>
-        <Heading as="p" size="3xl" fontWeight={'medium'}>
+        <Heading as="p" size="2xl" fontWeight={'medium'}>
           {current.temp}
           <Text as="sup"> o</Text>C
         </Heading>
