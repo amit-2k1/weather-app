@@ -17,7 +17,7 @@ export default function Error({ navigate }) {
         404 Error
       </Heading>
       <Text mb={10} fontWeight={'hairline'} fontSize={'2xl'}>
-        Opps.The page you're looking for doesn't exist.
+        Opps.The place you're looking for doesn't exist.
       </Text>
       <Button onClick={handleClick} colorScheme="green" p={6} fontSize="xl">
         Back to Home

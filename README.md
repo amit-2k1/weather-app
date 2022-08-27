@@ -25,6 +25,7 @@ Website: [Weather App](https://your-weatherman.netlify.app)
    git clone https://github.com/amit-ksh/weather-app.git
    cd weather-app
    npm install
+   npm i -g netlify
    ```
 
 1) Creating the .env file and set the following variables
@@ -45,7 +46,7 @@ Website: [Weather App](https://your-weatherman.netlify.app)
 
 1) Build the production Build
     ```bash
-    npm run build
+    npm run create-build
     ```
 
 1) Test your deployment
