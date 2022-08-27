@@ -21,8 +21,7 @@ export default function TodayWeather({ current, location }) {
 
         <Text mb={6}>{'Today, ' + dayjs().format('DD MMMM')}</Text>
         <Heading as="p" size="2xl" fontWeight={'medium'}>
-          {current.temp}
-          <Text as="sup"> o</Text>C
+          {current.temp}°C
         </Heading>
         <Text fontSize={'xl'} fontWeight={'bold'}>
           {current.weather[0].main}

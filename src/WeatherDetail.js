@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { useParams } from 'react-router-dom';
-import { Box, Grid, GridItem, Heading, Spinner } from '@chakra-ui/react';
+import { Box, Grid, GridItem, Heading, HStack, Spinner } from '@chakra-ui/react';
 import axios from 'axios';
 import * as dayjs from 'dayjs';
 
@@ -13,7 +13,6 @@ import HourlyWeather from './HourlyWeather';
 import LocationInput from './LocationInput';
 
 async function getWeatherData(location, navigate) {
-  console.log(location);
   const response = await axios
     .post(`/.netlify/functions/weather`, {location})
     .then(({ data }) => data)
@@ -158,23 +157,37 @@ export default function WeatherDetail({ onLocationChange, navigate }) {
       </GridItem>
 
       <GridItem rowSpan="1" colSpan="15" m={4}>
-        <Heading as="h6" size="md" p={2}>
+        <Heading as="h6" size="md" mb={2} p={2}>
           Daily
         </Heading>
-        <Grid gridTemplateColumns="repeat(8, 1fr)" columnGap={4} rowGap={4}>
+        <HStack
+          overflowX='auto'
+          __css={{
+            '&::-webkit-scrollbar': {
+              height: '14px',
+            },
+            '&::-webkit-scrollbar-track': {
+              
+            },
+            '&::-webkit-scrollbar-thumb': {
+              backgroundColor: 'gray',    /* color of the scroll thumb */
+              borderRadius: '20px',       /* roundness of the scroll thumb */
+              border: '3px solid lightgrey',
+            },
+          }}
+        >
           {weatherData.daily.map((data, idx) => {
             return (
-              <GridItem key={idx} colSpan={[4, 2, 1]}>
-                <DailyWeatherCard
+              <DailyWeatherCard
+                key={'daily' + idx+1}
                   timestamp={data.dt}
                   temperature={data.temp.day}
                   icon={data.weather[0].icon}
                   description={data.weather[0].description}
                 />
-              </GridItem>
             );
           })}
-        </Grid>
+        </HStack>
       </GridItem>
     </Grid>
   );
