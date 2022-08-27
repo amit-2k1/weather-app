@@ -1,16 +1,16 @@
 [build]
   functions = "netlify/functions"
-  publish = "public"
+  publish = "build"
 
 [functions]
   node_bundler = "esbuild"
 
 [[redirects]]
  from = "/*"
- to = "/public/index.html"
+ to = "/build/index.html"
  status = 200
 
-# [dev]
-#     command = "npm run start"
-#     targetPort = 3000
-#     publish = "public"
+[dev]
+    command = "npm run start"
+    targetPort = 3000
+    publish = "public"

@@ -15,7 +15,7 @@ import LocationInput from './LocationInput';
 async function getWeatherData(location, navigate) {
   console.log(location);
   const response = await axios
-    .post(`${process.env.REACT_APP_API_URL}/weather`, {location})
+    .post(`/.netlify/functions/weather`, {location})
     .then(({ data }) => data)
     .catch(() => {
       navigate('/error');
