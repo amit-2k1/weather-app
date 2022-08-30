@@ -1,31 +1,37 @@
 import { Box } from '@chakra-ui/react';
 import React from 'react';
 import {
-  LineChart,
-  Line,
   XAxis,
   YAxis,
   ResponsiveContainer,
   Tooltip,
   Legend,
   Label,
-  CartesianGrid,
+  AreaChart,
+  Area,
 } from 'recharts';
 
 export default function HourlyWeather({ data }) {
   return (
-    <Box h={['85%', '95%']} w={['85vw', '100%']} p={2}>
+    <Box h={'300px'} w={'90%'} p={2}>
       <ResponsiveContainer>
-        <LineChart width={'100%'} height={'100%'} data={data}>
+        <AreaChart data={data}>
           <Legend verticalAlign="top" height={40} />
+
+          <defs>
+            <linearGradient id="ColorTemp" x1="0" y1="0" x2="0" y2="1">
+              <stop offset="5%" stopColor="orange" stopOpacity={0.8}/>
+              <stop offset="95%" stopColor="orange" stopOpacity={0}/>
+            </linearGradient>
+          </defs>
           
           <XAxis dataKey="time">
-            <Label value="Time" offset={-5} position="insideBottom" />
+            <Label value="Time" dy={10} position="insideBottom" />
           </XAxis>
 
           <YAxis
-            domain={[dataMin => (Math.floor(dataMin - 2)), dataMax => (Math.ceil(dataMax + 2))]}
             dataKey="temperature"
+            domain={[dataMin => (Math.floor(dataMin - 2)), dataMax => (Math.ceil(dataMax + 2))]}
             unit={'°C'}>
             <Label
               value="Temperature"
@@ -36,15 +42,15 @@ export default function HourlyWeather({ data }) {
           </YAxis>
 
           <Tooltip dataKey="temperature" />
-          <Line
+          <Area
             type="monotone"
             dataKey="temperature"
             stroke='orange'
-            dot={false}
-            activeDot={true}
-            strokeWidth={2}
+            strokeWidth={3}
+            fillOpacity={1}
+            fill="url(#ColorTemp)"
           />
-        </LineChart>
+        </AreaChart>
       </ResponsiveContainer>
     </Box>
   );

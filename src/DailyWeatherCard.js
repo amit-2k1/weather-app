@@ -14,14 +14,14 @@ export default function DailyWeatherCard({
       <VStack w='100%' h='100%' p={4} bg="white" borderRadius={'xl'}>
         <SVGIcon
           width={40}
-          height={30}
+          height={40}
           iconName={icon}
           description={description}
         />
         <Text fontSize="md" fontWeight={'semibold'}>
           {dayjs.unix(timestamp).format('D, MMM')}
         </Text>
-        <Text fontSize="md" fontWeight={'semibold'}>
+        <Text fontSize="md" fontWeight={'bold'}>
           {temperature}°C
         </Text>
       </VStack>

@@ -52,6 +52,7 @@ export default function WeatherDetail({ onLocationChange, navigate }) {
         setLoading(false);
       });
 
+  // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [location]);
 
   const getAQIQualitativeName = (aqi) => {
@@ -67,15 +68,17 @@ export default function WeatherDetail({ onLocationChange, navigate }) {
   };
 
   const getFormattedHourlyData = () => {
-    const formattedHourlyData = [{}];
+    const formattedHourlyData = [];
     weatherData.hourly.forEach(({ temp, dt }, index) => {
       if (index < 10) {
         formattedHourlyData.push({
           temperature: temp,
-          time: dayjs.unix(dt).format('HH:mm'),
+          time: dayjs.unix(dt).format('h:mm a'),
         });
       }
     });
+
+    formattedHourlyData.push({});
     return formattedHourlyData;
   };
 
@@ -122,7 +125,7 @@ export default function WeatherDetail({ onLocationChange, navigate }) {
         </Box>
       </GridItem>
 
-      <GridItem rowSpan="7" colSpan={['15', '15', '4']} bg="whitesmoke">
+      <GridItem rowSpan="7" colSpan={['15', '15', '4']} mb={4} bg="whitesmoke">
         <TodayWeather current={weatherData.current} location={loc} />
       </GridItem>
 
@@ -148,46 +151,46 @@ export default function WeatherDetail({ onLocationChange, navigate }) {
           </GridItem>
         </Grid>
 
-        <Box h={['55vh', '35vh']} w={['85vw', '85vw', '60vw']} m={4} my={0}>
-          <Heading as="h6" size="md" p={2}>
-            Hourly
+        <Box m={4} my={0}>
+          <Heading as="h6" size="md" my={2} p={2}>
+            Daily
           </Heading>
-          <HourlyWeather data={getFormattedHourlyData()} />
+          <HStack
+            overflowX='auto'
+            __css={{
+              '&::-webkit-scrollbar': {
+                height: '14px',
+              },
+              '&::-webkit-scrollbar-track': {
+                
+              },
+              '&::-webkit-scrollbar-thumb': {
+                backgroundColor: 'gray',    /* color of the scroll thumb */
+                borderRadius: '20px',       /* roundness of the scroll thumb */
+                border: '3px solid lightgrey',
+              },
+            }}
+          >
+            {weatherData.daily.map((data, idx) => {
+              return (
+                <DailyWeatherCard
+                  key={'daily' + idx+1}
+                    timestamp={data.dt}
+                    temperature={data.temp.day}
+                    icon={data.weather[0].icon}
+                    description={data.weather[0].description}
+                  />
+              );
+            })}
+          </HStack>
         </Box>
       </GridItem>
 
-      <GridItem rowSpan="1" colSpan="15" m={4}>
-        <Heading as="h6" size="md" mb={2} p={2}>
-          Daily
+      <GridItem rowSpan="1" colSpan="15" m={4} my={6}>
+        <Heading as="h6" size="md" p={2}>
+          Hourly
         </Heading>
-        <HStack
-          overflowX='auto'
-          __css={{
-            '&::-webkit-scrollbar': {
-              height: '14px',
-            },
-            '&::-webkit-scrollbar-track': {
-              
-            },
-            '&::-webkit-scrollbar-thumb': {
-              backgroundColor: 'gray',    /* color of the scroll thumb */
-              borderRadius: '20px',       /* roundness of the scroll thumb */
-              border: '3px solid lightgrey',
-            },
-          }}
-        >
-          {weatherData.daily.map((data, idx) => {
-            return (
-              <DailyWeatherCard
-                key={'daily' + idx+1}
-                  timestamp={data.dt}
-                  temperature={data.temp.day}
-                  icon={data.weather[0].icon}
-                  description={data.weather[0].description}
-                />
-            );
-          })}
-        </HStack>
+        <HourlyWeather data={getFormattedHourlyData()} />
       </GridItem>
     </Grid>
   );
