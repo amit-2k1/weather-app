@@ -25,10 +25,10 @@
   "scripts": {
     "start": "react-scripts start",
     "dev": "netlify dev",
-    "create-build": "netlify build",
+    "create-build": "netlify build && npm run build",
     "build": "react-scripts build",
-    "deploy": "netlify deploy --prod",
-    "test-deploy": "netlify deploy"
+    "deploy": "npm run create-build && netlify deploy --prod",
+    "test-deploy": "npm run create-build && netlify deploy"
   },
   "eslintConfig": {
     "extends": "react-app"

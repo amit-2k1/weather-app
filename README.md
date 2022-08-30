@@ -44,17 +44,12 @@ Website: [Weather App](https://your-weatherman.netlify.app)
 
 ### Deploy Steps
 
-1) Build the production Build
-    ```bash
-    npm run create-build
-    ```
-
 1) Test your deployment
    ```bash
    npm run test-deploy
    ```
 
-1) Deploy the production build
+2) Deploy the production build
    ```bash
    npm run deploy
    ```
