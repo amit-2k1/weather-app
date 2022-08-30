@@ -9,37 +9,40 @@ import {
   Tooltip,
   Legend,
   Label,
+  CartesianGrid,
 } from 'recharts';
 
 export default function HourlyWeather({ data }) {
   return (
-    <Box h={['80%', '90%']} w={['85vw', '100%']} p={2}>
+    <Box h={['85%', '95%']} w={['85vw', '100%']} p={2}>
       <ResponsiveContainer>
-        <LineChart data={data}>
+        <LineChart width={'100%'} height={'100%'} data={data}>
           <Legend verticalAlign="top" height={40} />
+          
+          <XAxis dataKey="time">
+            <Label value="Time" offset={-5} position="insideBottom" />
+          </XAxis>
+
           <YAxis
+            domain={[dataMin => (Math.floor(dataMin - 2)), dataMax => (Math.ceil(dataMax + 2))]}
             dataKey="temperature"
-            domain={['auto', 'auto']}
-            unit={'C'}
-            interval="preserveStartEnd"
-          >
+            unit={'°C'}>
             <Label
               value="Temperature"
               angle={-90}
-              dx={-20}
+              dx={-25}
               position="leftInside"
             />
           </YAxis>
-          <XAxis dataKey="time" interval="preserveStart">
-            <Label value="Time" offset={-5} position="insideBottom" />
-          </XAxis>
-          <Tooltip />
+
+          <Tooltip dataKey="temperature" />
           <Line
             type="monotone"
             dataKey="temperature"
+            stroke='orange'
             dot={false}
             activeDot={true}
-            strokeWidth={3}
+            strokeWidth={2}
           />
         </LineChart>
       </ResponsiveContainer>

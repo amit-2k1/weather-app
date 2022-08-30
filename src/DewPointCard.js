@@ -14,7 +14,7 @@ export default function DewPointCard({ dewPoint }) {
         fontWeight={'semibold'}
         textAlign={'center'}
       >
-        {dewPoint}°C
+        {dewPoint.toFixed(1)}°C
       </Heading>
     </>
   );
