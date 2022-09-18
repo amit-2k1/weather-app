@@ -13,14 +13,14 @@ export default function Error({ navigate }) {
       justifyContent={'center'}
       alignItems={'center'}
     >
-      <Heading as="p" mb={16} size={'3xl'}>
-        404 Error
+      <Heading as="p" mb={16} size={'4xl'} letterSpacing='2px'>
+        404
       </Heading>
       <Text mb={10} fontWeight={'hairline'} fontSize={'2xl'}>
         Opps.The place you're looking for doesn't exist.
       </Text>
-      <Button onClick={handleClick} colorScheme="green" p={6} fontSize="xl">
-        Back to Home
+      <Button as='a' onClick={handleClick} colorScheme="green" p={6} fontSize="xl">
+        Go back to home
       </Button>
     </Box>
   );

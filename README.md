@@ -30,7 +30,7 @@ Website: [Weather App](https://your-weatherman.netlify.app)
 
 1) Creating the .env file and set the following variables
    ```bash
-    OPENWEATHER_APIKEY='YOUR_OPENWATHER_API_KEY'
+    OPENWEATHER_APIKEY='YOUR_OPENWEATHER_API_KEY'
    ```
    Get the key from [here](https://openweathermap.org/api)
    

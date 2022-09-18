@@ -1,7 +1,7 @@
 import React from 'react';
 import { FormControl, Input } from '@chakra-ui/react';
 
-function LocationInput({ onSubmit }) {
+function LocationInput({ onSubmit, ...rest }) {
   return (
     <FormControl minW={'60%'}>
       <form onSubmit={onSubmit}>
@@ -13,6 +13,10 @@ function LocationInput({ onSubmit }) {
           autoComplete="off"
           autoFocus
           required
+          fontSize='lg'
+          letterSpacing='2px'
+          fontWeight='semibold'
+          {...rest}
         />
       </form>
     </FormControl>
